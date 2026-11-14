@@ -326,7 +326,7 @@ sequenceDiagram
     API->>DB: findOneAndUpdate({ email }, { otp, createdAt: now }, { upsert: true })
     API->>Resend: sendOTPService(email, code)
     Resend-->>Client: Email delivered to user's inbox
-    API-->>Client: 200 OK ("Verification code dispatched")
+    API-->>Client: 200 OK - Verification code dispatched
 ```
 
 ### 3.2 Passwordless Email OTP Verification & Account Creation
@@ -367,7 +367,7 @@ sequenceDiagram
     User->>Frontend: Clicks "Sign in with Google"
     Frontend->>Backend: GET /auth/google
     Backend->>Backend: Generate random 32-byte CSRF state token
-    Backend-->>Frontend: Set-Cookie: oauth_state=...; Redirect to accounts.google.com
+    Backend-->>Frontend: Set-Cookie oauth_state and redirect to Google Accounts
     Frontend->>Google: Authenticate & Consent (openid, email, profile)
     Google-->>Backend: GET /auth/google/callback?code=...&state=...
     Backend->>Backend: Verify state parameter matches oauth_state cookie
@@ -420,7 +420,7 @@ flowchart TD
     CurrentDir["Current Directory (e.g. 'Project Alpha')"] --> P1["parentDirId -> 'Work'"]
     P1 --> P2["parentDirId -> 'Documents'"]
     P2 --> Root["parentDirId -> null ('root')"]
-    Root --> BreadcrumbResult["Breadcrumb Array: [My Drive > Documents > Work > Project Alpha]"]
+    Root --> BreadcrumbResult["Breadcrumb Array: My Drive > Documents > Work > Project Alpha"]
 ```
 
 ### 4.3 Directory Creation & Subfolder Nesting
@@ -445,14 +445,14 @@ sequenceDiagram
 
     Client->>API: GET /api/directory/:id/download
     API->>DB: Recursively find all nested files and subdirectories
-    API->>Client: Headers: Content-Disposition: attachment; filename="Folder.zip"
-    API->>Archiver: archiver.pipe(res)
+    API->>Client: Headers Content-Disposition attachment for Folder.zip
+    API->>Archiver: Pipe archiver stream directly to response
     loop For each file in directory tree
-        API->>Disk: createReadStream(filePath)
+        API->>Disk: Read file stream from disk
         Disk-->>Archiver: Stream file bytes
         Archiver-->>Client: Stream compressed ZIP chunks in real-time
     end
-    API->>Archiver: archiver.finalize()
+    API->>Archiver: Finalize ZIP archive stream
     Archiver-->>Client: Stream ends (0 temporary files created on disk)
 ```
 
@@ -494,13 +494,13 @@ sequenceDiagram
     participant Server as File Stream Controller
     participant Disk as Physical File on Disk
 
-    Player->>Server: GET /api/file/:id/video.mp4 (Range: bytes=0-1048575)
+    Player->>Server: GET /api/file/:id/video.mp4 (Range bytes 0-1048575)
     Server->>Disk: fs.stat(filePath) -> totalSize = 52428800 bytes
     Server->>Server: Parse Range: start = 0, end = 1048575, chunk = 1048576
-    Server->>Disk: fs.createReadStream(filePath, { start: 0, end: 1048575 })
+    Server->>Disk: Read requested byte range from disk
     Disk-->>Server: Read specified byte chunk
-    Server-->>Player: HTTP 206 Partial Content<br/>Content-Range: bytes 0-1048575/52428800<br/>Content-Length: 1048576
-    Player->>Server: User drags seek bar to 50% (Range: bytes=26214400-27262975)
+    Server-->>Player: HTTP 206 Partial Content (Range: 0-1048575 / 52428800 bytes)
+    Player->>Server: User drags seek bar to 50% (Range: 26214400-27262975)
     Server-->>Player: HTTP 206 Partial Content (Next byte range delivered immediately)
 ```
 
@@ -647,7 +647,7 @@ When a user clicks "Delete Permanently" on a folder:
 flowchart TD
     Start["Delete Permanently Triggered"] --> OpenTx["Open Mongoose ACID Transaction (dbSession)"]
     OpenTx --> Discover["Recursively gather folder ID and all descendant folder IDs"]
-    Discover --> FindFiles["Find all File documents where parentDirId in [allDiscoveredFolderIds]"]
+    Discover --> FindFiles["Find all File documents where parentDirId in allDiscoveredFolderIds"]
 
     FindFiles --> DeleteDisk["For each file: delete physical binary from server/storage/<id>.<ext>"]
     DeleteDisk --> PurgeDBFiles["File.deleteMany({ _id: { $in: fileIds } }).session(dbSession)"]
@@ -680,7 +680,7 @@ sequenceDiagram
     Note over User,Resend: Step 1: Authorize Current Identity
     User->>Server: POST /api/user/change-email/request-old-otp
     Server->>Resend: Dispatch 4-digit code to current email
-    Server-->>User: 200 OK ("Code sent to old email")
+    Server-->>User: 200 OK - Code sent to old email
     User->>Server: POST /api/user/change-email/verify-old-otp { otp }
     Server->>Server: Verify code & generate HMAC-signed changeToken (10m TTL)
     Server-->>User: 200 OK { changeToken }
@@ -688,7 +688,7 @@ sequenceDiagram
     Note over User,Resend: Step 2: Verify New Email Address
     User->>Server: POST /api/user/change-email/resend-new-otp { newEmail, changeToken }
     Server->>Resend: Dispatch 4-digit code to newEmail
-    Server-->>User: 200 OK ("Code sent to new email")
+    Server-->>User: 200 OK - Code sent to new email
 
     Note over User,Resend: Step 3: Atomic Database Update & OAuth Decoupling
     User->>Server: POST /api/user/change-email/confirm-new-otp { newEmail, otp, changeToken }
@@ -698,7 +698,7 @@ sequenceDiagram
     Server->>DB: Update collaborator email in all Share documents
     Server->>DB: Commit Transaction
     Server->>Resend: Send courtesy security notice to old email
-    Server-->>User: 200 OK ("Email updated successfully")
+    Server-->>User: 200 OK - Email updated successfully
 ```
 
 ### 9.2 Account Ownership Transfer
@@ -729,16 +729,16 @@ flowchart TD
     MoveReq["Move Item (:id) into targetDirId"] --> IsFile{"Is item a File?"}
     IsFile -->|Yes| ExecuteMove["Update File parentDirId = targetDirId"]
 
-    IsFile -->|No (Folder)| CheckSelf{"Is targetDirId == item._id?"}
+    IsFile -->|No - Folder| CheckSelf{"Is targetDirId == item._id?"}
     CheckSelf -->|Yes| DenySelf["400 Error: Cannot move a folder into itself"]
     CheckSelf -->|No| CheckDescendant{"Is targetDirId inside any descendant subfolder?"}
 
     CheckDescendant -->|Yes| DenyCyclic["400 Error: Cannot move folder into its own subfolder"]
     CheckDescendant -->|No| ExecuteDirMove["Update Directory parentDirId = targetDirId"]
 
-    ExecuteMove --> LogMove["Log 'move' Activity"]
+    ExecuteMove --> LogMove["Log move Activity"]
     ExecuteDirMove --> LogMove
-    LogMove --> Res200["200 OK ('Item moved successfully')"]
+    LogMove --> Res200["200 OK: Item moved successfully"]
 ```
 
 ---
@@ -797,41 +797,41 @@ MeghVault uses **MongoDB** as a high-throughput, flexible document database. Ins
 
 ```mermaid
 flowchart TD
-    subgraph UsersCollection["users Collection (Document Store)"]
+    subgraph UsersCollection["users Collection - Document Store"]
         UserDoc["User Document (_id: ObjectId)"]
-        UserDoc -.-> EmbeddedAuth["Embedded: authProvider\n{ emailAuth: bool, googleAuth: string, githubAuth: string }"]
-        UserDoc -.-> EmbeddedIntegrations["Embedded: integrations\n{ googleDrive: obj, googlePhotos: obj, github: obj }"]
+        UserDoc -.-> EmbeddedAuth["Embedded: authProvider<br/>emailAuth: bool, googleAuth: string, githubAuth: string"]
+        UserDoc -.-> EmbeddedIntegrations["Embedded: integrations<br/>googleDrive, googlePhotos, github"]
     end
 
-    subgraph SessionsCollection["sessions Collection (TTL: 7 Days)"]
-        SessionDoc["Session Document (_id: ObjectId)\nuserId -> ref: User\ncreatedAt -> TTL expires: 604800s"]
+    subgraph SessionsCollection["sessions Collection - TTL 7 Days"]
+        SessionDoc["Session Document (_id: ObjectId)<br/>userId -> ref: User<br/>createdAt -> TTL expires: 604800s"]
     end
 
-    subgraph OTPCollection["otps Collection (TTL: 3 Minutes)"]
-        OTPDoc["OTP Document (_id: ObjectId)\nemail (unique: true)\notp (string)\ncreatedAt -> TTL expires: 180s"]
+    subgraph OTPCollection["otps Collection - TTL 3 Minutes"]
+        OTPDoc["OTP Document (_id: ObjectId)<br/>email (unique)<br/>otp: string<br/>createdAt -> TTL expires: 180s"]
     end
 
-    subgraph DirectoriesCollection["directories Collection (Tree Hierarchy)"]
-        DirDoc["Directory Document (_id: ObjectId)\nname: string\nuserId -> ref: User\nparentDirId -> ref: Directory (self-referencing tree)\nsource: enum ('meghvault','google-drive','github',...)\nisTrashed: bool, trashedAt: Date\noriginalParentDirId -> ref: Directory"]
+    subgraph DirectoriesCollection["directories Collection - Tree Hierarchy"]
+        DirDoc["Directory Document (_id: ObjectId)<br/>name: string, userId -> ref: User<br/>parentDirId -> ref: Directory (tree link)<br/>source: enum, isTrashed: bool<br/>originalParentDirId -> ref: Directory"]
     end
 
     subgraph FilesCollection["files Collection"]
-        FileDoc["File Document (_id: ObjectId)\nname: string, extension: string\nuserId -> ref: User\nparentDirId -> ref: Directory\nsource: enum, isTrashed: bool\ntrashedAt: Date, originalParentDirId -> ref: Directory"]
+        FileDoc["File Document (_id: ObjectId)<br/>name: string, extension: string<br/>userId -> ref: User, parentDirId -> ref: Directory<br/>source: enum, isTrashed: bool"]
     end
 
-    subgraph SharesCollection["shares Collection (ReBAC Guard)"]
-        ShareDoc["Share Document (_id: ObjectId)\nresourceId: ObjectId, resourceType: enum ('file','directory')\nownerId -> ref: User"]
-        ShareDoc -.-> EmbeddedCollabs["Embedded Array: collaborators[]\n[{ userId: ObjectId, email: string, role: 'viewer'|'collaborator', addedAt: Date }]"]
-        ShareDoc -.-> EmbeddedLink["Embedded Object: linkSettings\n{ isEnabled: bool, shareToken: string (sparse),\n  passwordHash: string, expiresAt: Date }"]
+    subgraph SharesCollection["shares Collection - ReBAC Guard"]
+        ShareDoc["Share Document (_id: ObjectId)<br/>resourceId, resourceType, ownerId -> ref: User"]
+        ShareDoc -.-> EmbeddedCollabs["Embedded Array: collaborators<br/>userId, email, role: viewer or collaborator, addedAt"]
+        ShareDoc -.-> EmbeddedLink["Embedded Object: linkSettings<br/>isEnabled, shareToken (sparse), passwordHash, expiresAt"]
     end
 
     subgraph StarredCollection["starred Collection"]
-        StarredDoc["Starred Document (_id: ObjectId)\nuserId -> ref: User\nresourceId -> ObjectId\nresourceType: enum ('file','directory')\nCompound Unique Index: { userId: 1, resourceId: 1 }"]
+        StarredDoc["Starred Document (_id: ObjectId)<br/>userId -> ref: User, resourceId<br/>Compound Unique Index: userId + resourceId"]
     end
 
-    subgraph ActivitiesCollection["activities Collection (Audit Stream)"]
-        ActivityDoc["Activity Document (_id: ObjectId)\nuserId -> ref: User\nresourceId: ObjectId, resourceType: enum\naction: enum ('upload','download','trash','share',...)\ncreatedAt: Date"]
-        ActivityDoc -.-> EmbeddedDetails["Embedded Object: details\n{ name, previousName, size, extension, source, sharedWithEmail }"]
+    subgraph ActivitiesCollection["activities Collection - Audit Stream"]
+        ActivityDoc["Activity Document (_id: ObjectId)<br/>userId -> ref: User, resourceId, action<br/>createdAt: Date"]
+        ActivityDoc -.-> EmbeddedDetails["Embedded Object: details<br/>name, previousName, size, extension, source"]
     end
 
     UserDoc -->|rootDirId -> ref: Directory| DirDoc
@@ -1111,7 +1111,3 @@ flowchart TD
 | **User** | `DELETE`| `/api/delete-account` | `checkAuth` + Throttler | Irreversible atomic account purge |
 
 ---
-
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
