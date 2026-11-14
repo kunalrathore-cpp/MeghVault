@@ -53,6 +53,20 @@ Explore the primary views, workspaces, and workflows across MeghVault:
 
 </div>
 
+<br/>
+
+### 🚀 Production Version Showcase (Latest Build)
+
+The latest production release of MeghVault introduces refined visual hierarchy, enhanced contrast styling, and responsive layout polish across both dark and light modes:
+
+| Production Dark Theme | Production Light Theme |
+| :---: | :---: |
+| [![MeghVault Production Dark Mode](./screenshots/production/MeghVaultDark.png)](./screenshots/production/MeghVaultDark.png)<br/>**Production Dark Interface**<br/><sub>High-contrast dark mode with sleek borders, status pills, and instant search.</sub> | [![MeghVault Production Light Mode](./screenshots/production/MeghVaultLight.png)](./screenshots/production/MeghVaultLight.png)<br/>**Production Light Interface**<br/><sub>Crisp light aesthetic optimized for daytime productivity and readability.</sub> |
+
+| Production Themed Workspace | Production Identity & Security Hub |
+| :---: | :---: |
+| [![MeghVault Themed Interface](./screenshots/production/MeghVaultThemed.png)](./screenshots/production/MeghVaultThemed.png)<br/>**Production Themed Dashboard**<br/><sub>Custom-accented workspace with visual depth and glassmorphism styling.</sub> | [![MeghVault Production Settings](./screenshots/production/MeghVaultSettings.png)](./screenshots/production/MeghVaultSettings.png)<br/>**Production Privacy & Security Hub**<br/><sub>Active browser session monitoring, multi-device logout, and dual-OTP authentication.</sub> |
+
 ---
 
 ## 📖 What is MeghVault?
