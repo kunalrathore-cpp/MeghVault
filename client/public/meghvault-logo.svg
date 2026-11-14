@@ -1,0 +1,23 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="meghvault-background" x1="8" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1D4ED8" />
+      <stop offset="1" stop-color="#38BDF8" />
+    </linearGradient>
+    <linearGradient id="meghvault-cloud" x1="18" y1="19" x2="49" y2="46" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#DBEAFE" />
+    </linearGradient>
+  </defs>
+
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#meghvault-background)" />
+  <circle cx="47" cy="17" r="5" fill="#FFFFFF" fill-opacity="0.18" />
+  <path
+    d="M18.5 43.5H46.5C51.19 43.5 55 39.69 55 35C55 30.69 51.79 27.12 47.64 26.57C46.05 21.49 41.3 17.8 35.7 17.8C30.84 17.8 26.57 20.59 24.51 24.7C23.68 24.48 22.81 24.37 21.92 24.37C16.98 24.37 13 28.36 13 33.28C13 38.92 15.53 43.5 18.5 43.5Z"
+    fill="url(#meghvault-cloud)"
+  />
+  <path
+    d="M22 43V31H26.15L31.2 37.15L36.25 31H40.4V43H36.8V35.95L31.2 42.65L25.6 35.95V43H22Z"
+    fill="#2563EB"
+  />
+</svg>

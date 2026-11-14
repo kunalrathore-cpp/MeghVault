@@ -1,0 +1,203 @@
+:root {
+  /* Catchy Dopamine Light Theme Palette */
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-hover: #f1f5f9;
+  --bg-active: #e2e8f0;
+
+  --border-light: #e2e8f0;
+  --border-subtle: #edf2f7;
+  --border-strong: #cbd5e1;
+  --border-focus: #3b82f6;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-disabled: #94a3b8;
+  --text-inverse: #ffffff;
+
+  /* Accent Colors (Vibrant Sapphire & Electric Royal) */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(37, 99, 235, 0.12);
+  --primary-glow: rgba(37, 99, 235, 0.28);
+  --brand-accent: var(--primary);
+
+  --secondary: #0ea5e9;
+  --secondary-hover: #0284c7;
+
+  /* Status Colors */
+  --success: #10b981;
+  --success-bg: #ecfdf5;
+  --success-border: #a7f3d0;
+
+  --warning: #f59e0b;
+  --warning-bg: #fffbeb;
+  --warning-border: #fde68a;
+
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+
+  /* Starred Palette - Consistent across light/dark & screen displays */
+  --star-fill: #eab308;
+  --star-stroke: #ca8a04;
+  --star-bg: rgba(234, 179, 8, 0.12);
+  --star-border: rgba(202, 138, 4, 0.35);
+  --star-hover-bg: rgba(234, 179, 8, 0.22);
+  --star-hover-border: rgba(202, 138, 4, 0.6);
+  --star-glow: rgba(234, 179, 8, 0.25);
+
+  /* File Type Dopamine Palette */
+  --type-folder: #f59e0b;
+  --type-folder-bg: #fffbeb;
+  --type-image: #ec4899;
+  --type-image-bg: #fdf2f8;
+  --type-video: #8b5cf6;
+  --type-video-bg: #f5f3ff;
+  --type-audio: #06b6d4;
+  --type-audio-bg: #ecfeff;
+  --type-code: #10b981;
+  --type-code-bg: #ecfdf5;
+  --type-document: #3b82f6;
+  --type-document-bg: #eff6ff;
+  --type-archive: #f97316;
+  --type-archive-bg: #fff7ed;
+  --type-default: #64748b;
+  --type-default-bg: #f8fafc;
+
+  /* Dopamine Gradients */
+  --gradient-dopamine-primary: linear-gradient(135deg, #2563eb, #6366f1);
+  --gradient-dopamine-rainbow: linear-gradient(90deg, #06b6d4, #3b82f6, #8b5cf6, #ec4899);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.25);
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  /* Spacing Scale (8pt Grid System) */
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+
+  /* Typography Scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.375rem;
+  --text-3xl: 1.75rem;
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --navbar-height: 70px;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] {
+  /* High-Dopamine Pure Solid AMOLED Black Palette */
+  --bg-primary: #000000;
+  --bg-surface: #0a0a0c;
+  --bg-elevated: #111116;
+  --bg-subtle: #141419;
+  --bg-hover: #1c1c24;
+  --bg-active: #24242e;
+
+  --border-light: #1c1c22;
+  --border-subtle: #121216;
+  --border-strong: #2a2a34;
+  --border-focus: #3b82f6;
+
+  /* High-Contrast Crystal-Clear Typography (Fixes Low Visibility in Dark Mode) */
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0; /* Crisp luminous light slate */
+  --text-muted: #cbd5e1;     /* High readability for dates, subtext, and counts */
+  --text-disabled: #94a3b8;  /* Clear secondary indicators */
+  --text-inverse: #000000;
+
+  /* Dopamine Electric Accents */
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --primary-light: rgba(59, 130, 246, 0.18);
+  --primary-glow: rgba(59, 130, 246, 0.45);
+  --brand-accent: var(--primary);
+
+  --secondary: #38bdf8;
+  --secondary-hover: #0ea5e9;
+
+  /* Status Colors */
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.15);
+  --success-border: rgba(52, 211, 153, 0.35);
+
+  --warning: #fbbf24;
+  --warning-bg: rgba(251, 191, 36, 0.15);
+  --warning-border: rgba(251, 191, 36, 0.35);
+
+  --danger: #f87171;
+  --danger-hover: #ef4444;
+  --danger-bg: rgba(248, 113, 113, 0.15);
+  --danger-border: rgba(248, 113, 113, 0.35);
+
+  /* Starred Palette - Dark Mode AMOLED Glow */
+  --star-fill: #facc15;
+  --star-stroke: #eab308;
+  --star-bg: rgba(250, 204, 21, 0.15);
+  --star-border: rgba(250, 204, 21, 0.45);
+  --star-hover-bg: rgba(250, 204, 21, 0.28);
+  --star-hover-border: rgba(250, 204, 21, 0.7);
+  --star-glow: rgba(250, 204, 21, 0.35);
+
+  /* File Type Dopamine Palette */
+  --type-folder: #fbbf24;
+  --type-folder-bg: rgba(251, 191, 36, 0.15);
+  --type-image: #f472b6;
+  --type-image-bg: rgba(244, 114, 182, 0.15);
+  --type-video: #a78bfa;
+  --type-video-bg: rgba(167, 139, 250, 0.15);
+  --type-audio: #22d3ee;
+  --type-audio-bg: rgba(34, 211, 238, 0.15);
+  --type-code: #34d399;
+  --type-code-bg: rgba(52, 211, 153, 0.15);
+  --type-document: #60a5fa;
+  --type-document-bg: rgba(96, 165, 250, 0.15);
+  --type-archive: #fb923c;
+  --type-archive-bg: rgba(251, 146, 60, 0.15);
+  --type-default: #cbd5e1;
+  --type-default-bg: rgba(203, 213, 225, 0.12);
+
+  /* Dopamine Gradients */
+  --gradient-dopamine-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  --gradient-dopamine-rainbow: linear-gradient(90deg, #06b6d4, #3b82f6, #8b5cf6, #ec4899);
+
+  /* Shadows (True-Black Depth with Neon Glow) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.85);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.7);
+  --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.95), 0 2px 4px -2px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0 12px 20px -3px rgba(0, 0, 0, 0.98), 0 4px 6px -4px rgba(0, 0, 0, 0.9);
+  --shadow-xl: 0 24px 30px -5px rgba(0, 0, 0, 1), 0 8px 10px -6px rgba(0, 0, 0, 0.95);
+  --shadow-glow: 0 0 25px rgba(59, 130, 246, 0.35);
+}
